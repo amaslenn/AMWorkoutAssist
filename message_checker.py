@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+#coding: utf-8
 import unittest
+import sys
 import re
 
 
@@ -24,11 +26,16 @@ class MessageChecker:
             self.error_message = 'Input message is empty'
             return False
 
-        patterns = ['(\d+)\s+catch\s*ups', 'catch\s*ups\s+(\d+)',
-                    '(\d+)\s+подтягиваний', 'подтягиваний\s+(\d+)']
+        patterns = [u'(\d+)\s+catch\s*ups', u'catch\s*ups\s+(\d+)',
+                    u'(\d+)\s+подтягиваний', u'подтягиваний\s+(\d+)']
+
+        text = self.message
+        # backward compatibility with 2.x versions
+        if sys.version_info < (3,):
+            text = self.message.decode('utf-8')
 
         for p in patterns:
-            res = re.match(p, self.message, re.IGNORECASE)
+            res = re.search(p, text, re.IGNORECASE|re.UNICODE)
             if res:
                 self.num_catch_ups = int(res.group(1))
                 return True
