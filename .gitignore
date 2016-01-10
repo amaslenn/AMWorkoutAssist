@@ -1,3 +1,5 @@
 .idea/
+__pycache__/
 oauth2token.json
 telegram_token
+.cache
