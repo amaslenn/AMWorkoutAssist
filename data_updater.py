@@ -40,16 +40,16 @@ class DataUpdater:
 
         ww = self.get_cell_value(START_CELL)
         now = datetime.now()
-        curr_ww = now.isocalendar()[1]
-        if ww != "ww{}".format(curr_ww):
+        curr_ww = "ww{:02d}".format(now.isocalendar()[1])
+        if ww != curr_ww:
             self.error_message = "Invalid week: {}, expected ww{}".format(ww, curr_ww)
             return None
 
-        col, row = self.work_sheet.get_int_addr(START_CELL)
+        row, col = self.work_sheet.get_int_addr(START_CELL)
         col += 1    # data starts next to ww name
 
-        col += now.weekday() + 1
-        cell = self.work_sheet.get_addr_int(col, row)
+        col += now.weekday()
+        cell = self.work_sheet.get_addr_int(row, col)
         return cell
 
     def init(self):
@@ -76,6 +76,8 @@ class DataUpdater:
         self.book = book
         self.work_sheet = work_sheet
 
+        return True
+
     def get_cell_value(self, cell):
         if not self.initialized:
             self.error_message = "DataUpdater is not initialized"
@@ -90,7 +92,7 @@ class DataUpdater:
 
         cell = self._get_current_cell()
         if not cell:
-            return 0
+            return False
 
         # input_value return text representation of cell data
         # for formula in would be like '=2+3+5'
