@@ -39,6 +39,9 @@ class MessageChecker:
     def get_num_catch_ups(self):
         return self.num_catch_ups
 
+    def get_error_message(self):
+        return self.error_message
+
 
 class t_MessageChecker(unittest.TestCase):
     """Tests for MessageChecker"""
