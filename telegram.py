@@ -59,6 +59,18 @@ class Telegram:
 
         return messages
 
+    def send_reply(self, reply):
+        if not self.chat_id:
+            self.error_message = 'Chat ID is not defined'
+            return False
+
+        m = self.bot.send_message(chat_id=self.chat_id, text=reply)
+        if not m or not isinstance(m, Message):
+            self.error_message = "Error sending message '{}'".format(reply)
+            return False
+
+        return True
+
 class t_Telegram(unittest.TestCase):
     """Tests for Telegram"""
     def test_init(self):
