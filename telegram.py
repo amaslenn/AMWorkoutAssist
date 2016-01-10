@@ -9,7 +9,7 @@ TELEGRAM_TOKEN_FILE = 'telegram_token'
 class Telegram:
     initialized = False
     bot = None
-    last_id = 0
+    last_update_id = 0
     error_message = ''
     errors = dict()
 
@@ -46,7 +46,7 @@ class Telegram:
             self.last_update_id = update.update_id + 1
 
             # skip all types of message except Message
-            if not update.message or not isinstance(update, Message):
+            if not update.message or not isinstance(update.message, Message):
                 continue
 
             m = Msg()
