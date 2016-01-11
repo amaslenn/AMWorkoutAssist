@@ -42,7 +42,7 @@ class DataUpdater:
         now = datetime.now()
         curr_ww = "ww{:02d}".format(now.isocalendar()[1])
         if ww != curr_ww:
-            self.error_message = "Invalid week: {}, expected ww{}".format(ww, curr_ww)
+            self.error_message = "Invalid week: {}, expected {}".format(ww, curr_ww)
             return None
 
         row, col = self.work_sheet.get_int_addr(START_CELL)
