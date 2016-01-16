@@ -44,7 +44,7 @@ class t_Message(unittest.TestCase):
     """Tests for Message"""
     def test_init(self):
         m = Message()
-        ret = m.init()
+        ret = m.init(None)
         self.assertEqual(False, ret, msg='Check object initialization')
 
 if __name__ == '__main__':
