@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from telegram import Telegram
-from message_checker import MessageChecker
+from message_checker import MessageHandler
 from data_updater import DataUpdater
 
 # init telegram bot
@@ -11,7 +11,7 @@ if not ok:
     exit(1)
 
 # init message checker
-msg_checker = MessageChecker()
+msg_checker = MessageHandler()
 
 # init data updater
 du = DataUpdater()

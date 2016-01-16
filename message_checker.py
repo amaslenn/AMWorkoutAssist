@@ -5,7 +5,7 @@ import sys
 import re
 
 
-class MessageChecker:
+class MessageHandler:
     message = ''
     error_message = ''
     num_catch_ups = None
@@ -50,36 +50,36 @@ class MessageChecker:
         return self.error_message
 
 
-class t_MessageChecker(unittest.TestCase):
-    """Tests for MessageChecker"""
+class t_MessageHandler(unittest.TestCase):
+    """Tests for MessageHandler"""
     def test_init(self):
-        mc = MessageChecker('2 catch ups')
+        mc = MessageHandler('2 catch ups')
         self.assertEqual(True, mc.check(), msg='Check object initialization')
         self.assertEqual(2, mc.get_num_catch_ups(), msg='Check parsed number')
 
     def test_init2(self):
-        mc = MessageChecker()
+        mc = MessageHandler()
         mc.set_message('2 catchups')
         self.assertEqual(True, mc.check(), msg='Check object initialization 2')
         self.assertEqual(2, mc.get_num_catch_ups(), msg='Check parsed number')
 
     def test_init3(self):
-        mc = MessageChecker('22 подтягиваний')
+        mc = MessageHandler('22 подтягиваний')
         self.assertEqual(True, mc.check(), msg='Check object initialization 3')
         self.assertEqual(22, mc.get_num_catch_ups(), msg='Check parsed number')
 
     def test_init4(self):
-        mc = MessageChecker('подтягиваний 123')
+        mc = MessageHandler('подтягиваний 123')
         self.assertEqual(True, mc.check(), msg='Check object initialization 4')
         self.assertEqual(123, mc.get_num_catch_ups(), msg='Check parsed number')
 
     def test_init5(self):
-        mc = MessageChecker('catchups 1')
+        mc = MessageHandler('catchups 1')
         self.assertEqual(True, mc.check(), msg='Check object initialization 5')
         self.assertEqual(1, mc.get_num_catch_ups(), msg='Check parsed number')
 
     def test_negative(self):
-        mc = MessageChecker('catchups')
+        mc = MessageHandler('catchups')
         self.assertEqual(False, mc.check(), msg='Check object initialization (negative)')
         self.assertEqual(None, mc.get_num_catch_ups(), msg='Check parsed number')
 
