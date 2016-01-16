@@ -34,13 +34,16 @@ class DataUpdater:
         """This function is for testing only"""
         self.current_cell = cell
 
-    def _get_current_cell(self):
+    def _get_current_cell(self, date):
         if self.current_cell:
             return self.current_cell
 
+        d = datetime.now()
+        if date:
+            d = date
+
         ww = self.get_cell_value(START_CELL)
-        now = datetime.now()
-        curr_ww = "ww{:02d}".format(now.isocalendar()[1])
+        curr_ww = "ww{:02d}".format(d.isocalendar()[1])
         if ww != curr_ww:
             self.error_message = "Invalid week: {}, expected {}".format(ww, curr_ww)
             return None
@@ -48,7 +51,7 @@ class DataUpdater:
         row, col = self.work_sheet.get_int_addr(START_CELL)
         col += 1    # data starts next to ww name
 
-        col += now.weekday()
+        col += d.weekday()
         cell = self.work_sheet.get_addr_int(row, col)
         return cell
 
@@ -85,13 +88,14 @@ class DataUpdater:
 
         return self.work_sheet.acell(cell).value
 
-    def add_value(self, value):
+    def add_value(self, value, date):
         if not self.initialized:
             self.error_message = "DataUpdater is not initialized"
             return False
 
-        cell = self._get_current_cell()
+        cell = self._get_current_cell(date)
         if not cell:
+            self.error_message = "Error defining cell for updating"
             return False
 
         # input_value return text representation of cell data
@@ -130,9 +134,9 @@ class t_DataUpdater(unittest.TestCase):
         du = DataUpdater()
         du.init()
         inc = 3
-        du._set_current_cell('N3')
-        curr = int(du.get_cell_value('N3'))
-        self.assertEqual(curr + inc, du.add_value(inc),
+        du._set_current_cell('N1')
+        curr = int(du.get_cell_value('N1'))
+        self.assertEqual(curr + inc, du.add_value(inc, None),
                          msg='Check add_value()')
 
 if __name__ == '__main__':

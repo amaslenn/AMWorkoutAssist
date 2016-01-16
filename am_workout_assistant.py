@@ -28,8 +28,8 @@ for message in bot.get_messages():
         bot.send_reply(msg_checker.get_error_message())
         continue
 
-    ok = du.add_value(msg_checker.get_num_catch_ups())
-    if ok == False:
+    res = du.add_value(msg_checker.get_num_catch_ups(), message.date())
+    if res == False:
         bot.send_reply(du.get_error_message())
         continue
 
