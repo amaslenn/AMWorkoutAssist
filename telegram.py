@@ -23,19 +23,6 @@ class Telegram:
         self.errors = dict()
         self.chat_id = None
 
-    def _store_last_update_id(self):
-        f = open(LAST_UPDATE_ID_STORAGE, 'w')
-        f.write(str(self.last_update_id))
-        f.close()
-
-    def _restore_last_update_id(self):
-        try:
-            f = open(LAST_UPDATE_ID_STORAGE)
-            self.last_update_id = f.read()
-            f.close()
-        except:
-            pass
-
     def init(self):
         # init Telegram bot through API
         f = open(TELEGRAM_TOKEN_FILE)
@@ -44,8 +31,6 @@ class Telegram:
         if not bot:
             self.error_message = 'Cannot initialize Bot'
             return False
-
-        self._restore_last_update_id()
 
         self.initialized = True
         self.bot = bot
@@ -76,9 +61,11 @@ class Telegram:
 
             messages.append(m)
 
-        self._store_last_update_id()
-
         return messages
+
+    def confirm_message(self, msg):
+        """Get Updates for Message's update id + 1 to mark it as confirmed"""
+        self.bot.get_updates(offset=msg.get_update_id() + 1).wait()
 
     def send_reply(self, reply):
         if not self.chat_id:

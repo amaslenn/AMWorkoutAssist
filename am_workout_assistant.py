@@ -26,6 +26,7 @@ for message in bot.get_messages():
     ok = msg_checker.check()
     if not ok:
         bot.send_reply(msg_checker.get_error_message())
+        bot.confirm_message(message)    # don't need to re-check unsupported messages
         continue
 
     res = du.add_value(msg_checker.get_num_catch_ups(), message.get_date())
@@ -34,5 +35,6 @@ for message in bot.get_messages():
         continue
 
     # success!
+    bot.confirm_message(message)
     bot.send_reply("Successfully added {}! Sum for the day is {}."
                    .format(msg_checker.get_num_catch_ups(), res))
