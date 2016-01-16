@@ -69,7 +69,7 @@ class Telegram:
                 continue
 
             m = Msg()
-            ok = m.init(text=update.message.text, date=datetime.fromtimestamp(update.message.date))
+            ok = m.init(update)
             if not ok:
                 self.errors[update.message.text] = m.get_error_message()
                 continue
