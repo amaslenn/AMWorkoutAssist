@@ -28,10 +28,11 @@ for message in bot.get_messages():
         bot.send_reply(msg_checker.get_error_message())
         continue
 
-    res = du.add_value(msg_checker.get_num_catch_ups(), message.date())
+    res = du.add_value(msg_checker.get_num_catch_ups(), message.get_date())
     if res == False:
         bot.send_reply(du.get_error_message())
         continue
 
     # success!
-    bot.send_reply("Successfully added {}!".format(msg_checker.get_num_catch_ups()))
+    bot.send_reply("Successfully added {}! Sum for the day is {}."
+                   .format(msg_checker.get_num_catch_ups(), res))
