@@ -72,7 +72,7 @@ class Telegram:
             self.error_message = 'Chat ID is not defined'
             return False
 
-        m = self.bot.send_message(chat_id=self.chat_id, text=reply)
+        m = self.bot.send_message(chat_id=self.chat_id, text=reply, parse_mode="Markdown")
         if not m or not isinstance(m, Message):
             self.error_message = "Error sending message '{}'".format(reply)
             return False

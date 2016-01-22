@@ -36,5 +36,5 @@ for message in bot.get_messages():
 
     # success!
     bot.confirm_message(message)
-    bot.send_reply("Successfully added {}! Sum for the day is {}."
+    bot.send_reply("Successfully added *{}*! Sum for the day is *{}*."
                    .format(msg_checker.get_num_catch_ups(), res))
