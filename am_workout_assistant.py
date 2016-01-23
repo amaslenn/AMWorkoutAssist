@@ -24,8 +24,11 @@ for message in bot.get_messages():
     msg_text = message.get_text()
     print("Handling message '{}'...".format(msg_text))
 
+    augment = 0
+
     # commands
     if msg_text.startswith('/'):
+        error = ''
         if msg_text.startswith('/help'):
             bot.send_reply("Supported commands:\n" +
                            "/help - show this help\n" +
@@ -36,28 +39,26 @@ for message in bot.get_messages():
         elif msg_text.startswith('/catchups'):
             number = msg_text.replace('/catchups', '').lstrip()
             if number.isdigit():
-                res = du.add_value(number, message.get_date())
-                if res == False:
-                    bot.send_reply(du.get_error_message())
-                else:
-                    bot.send_reply("Successfully added *{}*! Sum for the day is *{}*."
-                                   .format(number, res))
+                augment = number
             else:
-                bot.send_reply("/catchups accept only digits")
+                error = "/catchups accept only digits"
         else:
-            bot.send_reply("Command '{}' is unsupported. See /help.".format(msg_text))
+            error = "Command '{}' is unsupported. See /help.".format(msg_text)
 
-        bot.confirm_message(message)
-        continue
+        if error:
+            bot.confirm_message(message)
+            continue
+    else:
+        msg_checker.set_message(msg_text)
+        ok = msg_checker.check()
+        if not ok:
+            bot.send_reply(msg_checker.get_error_message())
+            bot.confirm_message(message)    # don't need to re-check unsupported messages
+            continue
 
-    msg_checker.set_message(msg_text)
-    ok = msg_checker.check()
-    if not ok:
-        bot.send_reply(msg_checker.get_error_message())
-        bot.confirm_message(message)    # don't need to re-check unsupported messages
-        continue
+        augment = msg_checker.get_num_catch_ups()
 
-    res = du.add_value(msg_checker.get_num_catch_ups(), message.get_date())
+    res = du.add_value(augment, message.get_date())
     if res == False:
         bot.send_reply(du.get_error_message())
         continue
@@ -65,4 +66,4 @@ for message in bot.get_messages():
     # success!
     bot.confirm_message(message)
     bot.send_reply("Successfully added *{}*! Sum for the day is *{}*."
-                   .format(msg_checker.get_num_catch_ups(), res))
+                   .format(augment, res))
