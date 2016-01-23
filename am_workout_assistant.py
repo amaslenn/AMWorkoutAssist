@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from datetime import datetime
 from telegram import Telegram
 from message_checker import MessageHandler
 from data_updater import DataUpdater
@@ -65,5 +66,12 @@ for message in bot.get_messages():
 
     # success!
     bot.confirm_message(message)
-    bot.send_reply("Successfully added *{}*! Sum for the day is *{}*."
-                   .format(augment, res))
+
+    now = datetime.now()
+    day_txt = 'day'
+    if now.date() == message.get_date().date():
+        day_txt = 'today'
+    elif (now.date() - message.get_date().date()) == 1:
+        day_txt = 'yesterday'
+    bot.send_reply("Successfully added *{}*! Sum for {} is *{}*."
+                   .format(augment, day_txt, res))
