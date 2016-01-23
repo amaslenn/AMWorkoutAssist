@@ -29,9 +29,21 @@ for message in bot.get_messages():
         if msg_text.startswith('/help'):
             bot.send_reply("Supported commands:\n" +
                            "/help - show this help\n" +
+                           "/catchups <number> - add number of catchups in this day\n" +
                            "\nSupported messages:\n" +
                            "*'<number> catchups'* or *'catchups <number>'* (catch ups is also fine)\n" +
                            "*'<число> подтягиваний'* or *'подтягиваний <число>'*")
+        elif msg_text.startswith('/catchups'):
+            number = msg_text.replace('/catchups', '').lstrip()
+            if number.isdigit():
+                res = du.add_value(number, message.get_date())
+                if res == False:
+                    bot.send_reply(du.get_error_message())
+                else:
+                    bot.send_reply("Successfully added *{}*! Sum for the day is *{}*."
+                                   .format(number, res))
+            else:
+                bot.send_reply("/catchups accept only digits")
         else:
             bot.send_reply("Command '{}' is unsupported. See /help.".format(msg_text))
 
