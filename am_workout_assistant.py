@@ -21,8 +21,24 @@ if not ok:
     exit(1)
 
 for message in bot.get_messages():
-    print("Handling message '{}'...".format(message.get_text()))
-    msg_checker.set_message(message.get_text())
+    msg_text = message.get_text()
+    print("Handling message '{}'...".format(msg_text))
+
+    # commands
+    if msg_text.startswith('/'):
+        if msg_text.startswith('/help'):
+            bot.send_reply("Supported commands:\n" +
+                           "/help - show this help\n" +
+                           "\nSupported messages:\n" +
+                           "*'<number> catchups'* or *'catchups <number>'* (catch ups is also fine)\n" +
+                           "*'<число> подтягиваний'* or *'подтягиваний <число>'*")
+        else:
+            bot.send_reply("Command '{}' is unsupported. See /help.".format(msg_text))
+
+        bot.confirm_message(message)
+        continue
+
+    msg_checker.set_message(msg_text)
     ok = msg_checker.check()
     if not ok:
         bot.send_reply(msg_checker.get_error_message())
