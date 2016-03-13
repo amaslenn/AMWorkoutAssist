@@ -4,11 +4,6 @@ from datetime import datetime
 
 
 class Message:
-    text = ''
-    date = None
-    error_message = ''
-    update_id = 0
-
     def __init__(self):
         self.text = ''
         self.date = None

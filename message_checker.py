@@ -6,10 +6,6 @@ import re
 
 
 class MessageHandler:
-    message = ''
-    error_message = ''
-    num_catch_ups = None
-
     def __init__(self, msg=''):
         self.message = ''
         self.error_message = ''

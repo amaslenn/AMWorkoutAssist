@@ -8,13 +8,6 @@ LAST_UPDATE_ID_STORAGE = '.cache'
 
 
 class Telegram:
-    initialized = False
-    bot = None
-    last_update_id = 0
-    error_message = ''
-    errors = dict()
-    chat_id = None
-
     def __init__(self):
         self.initialized = False
         self.bot = None

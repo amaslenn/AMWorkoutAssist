@@ -12,12 +12,6 @@ START_CELL = 'B3'
 
 class DataUpdater:
     """Updater for Google spreadsheet"""
-    gc = None
-    book = None
-    work_sheet = None
-    error_message = ''
-    initialized = False
-    current_cell = ''
 
     def __init__(self):
         self.book = None
