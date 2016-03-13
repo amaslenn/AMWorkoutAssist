@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from datetime import datetime
 import unittest
+import os
 import json
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
@@ -50,9 +51,11 @@ class DataUpdater:
         return cell
 
     def init(self):
-        f = open(OAUTH2TOKEN_FILE)
-        json_key = json.load(f)
-        f.close()
+        json_key = json.loads(os.environ.get('GSHEET_TOKEN'))
+        if not json_key:
+            f = open(OAUTH2TOKEN_FILE)
+            json_key = json.load(f)
+            f.close()
         scope = ['https://spreadsheets.google.com/feeds']
         credentials = SignedJwtAssertionCredentials(json_key['client_email'],
                                                     json_key['private_key'].encode(), scope)
