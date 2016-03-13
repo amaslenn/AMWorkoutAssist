@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding: utf-8
 from datetime import datetime
 from telegram import Telegram
 from message_checker import MessageHandler
