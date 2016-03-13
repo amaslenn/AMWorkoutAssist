@@ -2,6 +2,7 @@
 import unittest
 from datetime import datetime
 
+
 class Message:
     text = ''
     date = None

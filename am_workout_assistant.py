@@ -4,6 +4,14 @@ from telegram import Telegram
 from message_checker import MessageHandler
 from data_updater import DataUpdater
 
+supported_commands = """Supported commands:
+/help - show this help
+/catchups <number> - add number of catchups in this day
+
+Supported messages:
+*'<number> catchups'* or *'catchups <number>'* (catch ups is also fine)
+*'<число> подтягиваний'* or *'подтягиваний <число>'*"""
+
 # init telegram bot
 bot = Telegram()
 ok = bot.init()
@@ -31,12 +39,7 @@ for message in bot.get_messages():
     if msg_text.startswith('/'):
         error = ''
         if msg_text.startswith('/help'):
-            bot.send_reply("Supported commands:\n" +
-                           "/help - show this help\n" +
-                           "/catchups <number> - add number of catchups in this day\n" +
-                           "\nSupported messages:\n" +
-                           "*'<number> catchups'* or *'catchups <number>'* (catch ups is also fine)\n" +
-                           "*'<число> подтягиваний'* or *'подтягиваний <число>'*")
+            bot.send_reply(supported_commands)
         elif msg_text.startswith('/catchups'):
             number = msg_text.replace('/catchups', '').lstrip()
             if number.isdigit():
@@ -60,7 +63,7 @@ for message in bot.get_messages():
         augment = msg_checker.get_num_catch_ups()
 
     res = du.add_value(augment, message.get_date())
-    if res == False:
+    if not res:
         bot.send_reply(du.get_error_message())
         continue
 

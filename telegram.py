@@ -2,10 +2,10 @@
 import unittest
 from twx.botapi import TelegramBot, Message
 from message import Message as Msg
-from datetime import datetime
 
 TELEGRAM_TOKEN_FILE = 'telegram_token'
 LAST_UPDATE_ID_STORAGE = '.cache'
+
 
 class Telegram:
     initialized = False
@@ -78,6 +78,7 @@ class Telegram:
             return False
 
         return True
+
 
 class t_Telegram(unittest.TestCase):
     """Tests for Telegram"""
