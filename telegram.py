@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import unittest
 from twx.botapi import TelegramBot, Message
 from message import Message as Msg
@@ -18,9 +19,12 @@ class Telegram:
 
     def init(self):
         # init Telegram bot through API
-        f = open(TELEGRAM_TOKEN_FILE)
-        bot = TelegramBot(f.read())
-        f.close()
+        token = os.environ.get('TELEGRAM_TOKEN')
+        if not token:
+            f = open(TELEGRAM_TOKEN_FILE)
+            token = f.read()
+            f.close()
+        bot = TelegramBot(token)
         if not bot:
             self.error_message = 'Cannot initialize Bot'
             return False
