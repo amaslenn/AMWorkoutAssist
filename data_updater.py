@@ -51,8 +51,10 @@ class DataUpdater:
         return cell
 
     def init(self):
-        json_key = json.loads(os.environ.get('GSHEET_TOKEN'))
-        if not json_key:
+        token = os.environ.get('GSHEET_TOKEN')
+        if token:
+            json_key = json.loads(token)
+        else:
             f = open(OAUTH2TOKEN_FILE)
             json_key = json.load(f)
             f.close()
