@@ -25,7 +25,6 @@ class Message:
         return True
 
     def init_json(self, update):
-        print("JSON={}".format(update))
         if not update:
             self.error_message = "JSON update is not defined"
             return False
