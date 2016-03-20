@@ -7,3 +7,4 @@ script:
   - python message.py
   - python message_checker.py
   - python telegram.py
+  - python data_updater.py
