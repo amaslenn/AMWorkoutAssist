@@ -6,3 +6,4 @@ install: "pip install -r requirements.txt"
 script:
   - python message.py
   - python message_checker.py
+  - python telegram.py
