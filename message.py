@@ -9,6 +9,7 @@ class Message:
         self.date = None
         self.error_message = ''
         self.update_id = 0
+        self.chat_id = 0
 
     def init(self, telegram_update):
         if not telegram_update:
@@ -24,6 +25,7 @@ class Message:
         return True
 
     def init_json(self, update):
+        print("JSON={}".format(update))
         if not update:
             self.error_message = "JSON update is not defined"
             return False
@@ -45,9 +47,18 @@ class Message:
             self.error_message = "JSON message doesn't contain 'date'"
             return False
 
+        if 'chat' not in message:
+            self.error_message = "JSON message doesn't contain 'chat'"
+            return False
+
+        if 'id' not in message['chat']:
+            self.error_message = "JSON message doesn't contain 'chat.id'"
+            return False
+
         self.text = message['text']
         self.date = datetime.fromtimestamp(message['date'])
         self.update_id = update['update_id']
+        self.chat_id = message['chat']['id']
 
         return True
 
@@ -59,6 +70,9 @@ class Message:
 
     def get_update_id(self):
         return self.update_id
+
+    def get_chat_id(self):
+        return self.chat_id
 
     def get_error_message(self):
         return self.error_message
@@ -94,7 +108,13 @@ class t_Message(unittest.TestCase):
     def test_init_json5(self):
         m = Message()
         ret = m.init_json({'update_id': 2, 'message': {'text': 'sample text', 'date': 1438004886}})
-        self.assertEqual(True, ret, msg="init_json(): OK")
+        self.assertEqual(False, ret, msg="init_json(): no chat")
+
+    def test_init_json6(self):
+        m = Message()
+        ret = m.init_json({'update_id': 2, 'message': {'chat': {'id': 3333}, 'text': 'sample text',
+                           'date': 1438004886}})
+        self.assertEqual(True, ret, msg="init_json(): no chat")
 
 if __name__ == '__main__':
     unittest.main()

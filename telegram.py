@@ -34,6 +34,9 @@ class Telegram:
 
         return True
 
+    def set_chat_id(self, chat_id):
+        self.chat_id = chat_id
+
     def get_messages(self):
         if not self.initialized:
             self.error_message = 'Cannot get messages for non initialized Bot'
